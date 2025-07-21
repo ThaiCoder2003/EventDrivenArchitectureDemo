@@ -12,4 +12,4 @@ const OrderModel = new mongoose.Schema({
     timestamps: true
 });
 
-module.exports = mongoose.model('Cart', OrderModel);
+module.exports = mongoose.model('Order', OrderModel);

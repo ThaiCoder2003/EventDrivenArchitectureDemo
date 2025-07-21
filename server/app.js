@@ -1,10 +1,10 @@
 var express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 4001;
 const connectDB = require('./config/db');
 const seed = require('./utils/seed');
+const cookieParser = require('cookie-parser');
 
 // Connect to MongoDB
 connectDB().then(() => {
@@ -16,14 +16,19 @@ connectDB().then(() => {
 });
 
 var userRouter = require('./routes/user');
+var productRouter = require('./routes/product');
 var transactionRouter = require('./routes/transaction');
 var app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:4000',
+    credentials: true
+}));
 app.use(express.json());
-app.use(bodyParser.json());
+app.use(cookieParser());
 
-app.use('/user', userRouter);
+app.use('/user', userRouter);   
+app.use('/product', productRouter);
 app.use('/transaction', transactionRouter);
 
 app.listen(PORT, () => {
